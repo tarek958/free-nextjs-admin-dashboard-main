@@ -70,10 +70,10 @@ const TableFour: React.FC = () => {
         <div className="mb-6 flex justify-between">
           <div>
             <h4 className="text-title-sm2 font-bold text-black dark:text-white">
-              Candidates
+              Candidats
             </h4>
           </div>
-          <DropdownDefault />
+          {/* <DropdownDefault /> */}
         </div>
 
         <div className="flex flex-col">

@@ -115,16 +115,19 @@ const TableThree = () => {
     }
   };
 
-  const updateUser = async (userId: string) => {
+  const updateUser = async (userId: string, user: any) => {
     try {
       const token = localStorage.getItem('token');
+      console.log(token);
+      
         const config = {
           headers: {
             Authorization: `Bearer ${token}`
           }
         };
-      await axios.put(`http://localhost:5000/api/users/${userId}`,config);
+      await axios.put(`http://localhost:5000/api/users/${userId}`,user ,config);
       toast.success('User Updated successfully!');
+      setShowEditPopup(false)
       fetchUsers();
       // Refresh user list or handle success
     } catch (error) {
@@ -153,27 +156,37 @@ const TableThree = () => {
   };
 
   return (
+    <>
+        {/* Add User Button */}
+        <div className="flex justify-end">
+        <button
+          onClick={() => setShowAddPopup(true)}
+          className=" w-44 px-4 py-2 bg-blue-500 text-white rounded-lg shadow-lg hover:bg-blue-600"
+        >
+          Ajouter l'utilisateur
+        </button>
+        </div>
     <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-      <div className="max-w-full overflow-x-auto">
-        <table className="w-full table-auto">
+      <div className="overflow-x-auto">
+        <table className="min-w-full table-auto">
           <thead>
             <tr className="bg-gray-2 text-left dark:bg-meta-4">
-              <th className="min-w-[180px] px-4 py-4 font-medium text-black dark:text-white xl:pl-11">
+              <th className="px-4 py-4 font-medium text-black dark:text-white xl:pl-11">
                 Prénom
               </th>
-              <th className="min-w-[180px] px-4 py-4 font-medium text-black dark:text-white">
-                Nom de famille
+              <th className="px-4 py-4 font-medium text-black dark:text-white">
+                Nom&nbsp;de&nbsp;famille
               </th>
-              <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white">
+              <th className="px-4 py-4 font-medium text-black dark:text-white">
                 E-mail
               </th>
-              <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white">
+              <th className="px-4 py-4 font-medium text-black dark:text-white">
                 Téléphone
               </th>
-              <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white">
+              <th className="px-4 py-4 font-medium text-black dark:text-white">
                 Entreprise
               </th>
-              <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
+              <th className="px-4 py-4 font-medium text-black dark:text-white">
                 Rôle
               </th>
               <th className="px-4 py-4 font-medium text-black dark:text-white">
@@ -237,13 +250,7 @@ const TableThree = () => {
             ))}
           </tbody>
         </table>
-        {/* Add User Button */}
-        <button
-          onClick={() => setShowAddPopup(true)}
-          className="absolute top-40 right-16 px-4 py-2 bg-blue-500 text-white rounded-lg shadow-lg hover:bg-blue-600"
-        >
-          Ajouter l'utilisateur
-        </button>
+        
         {/* Add User Popup */}
         {showAddPopup && (
           <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50  lg:ml-[290px]">
@@ -254,49 +261,49 @@ const TableThree = () => {
                 placeholder="Prénom"
                 value={newUser.firstName}
                 onChange={(e) => setNewUser({ ...newUser, firstName: e.target.value })}
-                className="border  py-2 rounded-lg mb-2 w-full"
+                className="border  py-2 rounded-lg mb-2 w-full px-3"
               />
               <input
                 type="text"
                 placeholder="Nom de famille"
                 value={newUser.lastName}
                 onChange={(e) => setNewUser({ ...newUser, lastName: e.target.value })}
-                className="border  py-2 rounded-lg mb-2 w-full"
+                className="border  py-2 rounded-lg mb-2 w-full px-3"
               />
               <input
                 type="email"
                 placeholder="E-mail"
                 value={newUser.email}
                 onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
-                className="border  py-2 rounded-lg mb-2 w-full"
+                className="border  py-2 rounded-lg mb-2 w-full px-3"
               />
               <input
                 type="text"
                 placeholder="Rôle"
                 value={newUser.role}
                 onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}
-                className="border  py-2 rounded-lg mb-2 w-full"
+                className="border  py-2 rounded-lg mb-2 w-full px-3"
               />
               <input
                 type="text"
                 placeholder="Téléphone"
                 value={newUser.telephone}
                 onChange={(e) => setNewUser({ ...newUser, telephone: e.target.value })}
-                className="border  py-2 rounded-lg mb-2 w-full"
+                className="border  py-2 rounded-lg mb-2 w-full px-3"
               />
               <input
                 type="text"
                 placeholder="Entreprise"
                 value={newUser.company}
                 onChange={(e) => setNewUser({ ...newUser, company: e.target.value })}
-                className="border  py-2 rounded-lg mb-2 w-full"
+                className="border  py-2 rounded-lg mb-2 w-full px-3"
               />
               <input
                 type="password"
                 placeholder="Mot de passe"
                 value={newUser.password}
                 onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
-                className="border  py-2 rounded-lg mb-2 w-full"
+                className="border  py-2 rounded-lg mb-2 w-full px-3"
               />
               <div className="flex justify-end space-x-2 mt-4">
                 <button
@@ -317,8 +324,8 @@ const TableThree = () => {
         )}
         {/* Edit User Popup */}
         {showEditPopup && editingUser && (
-          <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-            <div className="bg-white p-6 rounded-lg shadow-lg">
+          <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 lg:ml-[290px]">
+            <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
               <h3 className="font-medium text-lg mb-4">Modifier l'utilisateur</h3>
               <input
                 type="text"
@@ -341,13 +348,16 @@ const TableThree = () => {
                 onChange={(e) => setEditingUser({ ...editingUser, email: e.target.value })}
                 className="border px-4 py-2 rounded-lg mb-2 w-full"
               />
-              <input
-                type="text"
-                placeholder="Rôle"
+              {editingUser.role !== "admin" &&
+                            <select
                 value={editingUser.role}
                 onChange={(e) => setEditingUser({ ...editingUser, role: e.target.value })}
                 className="border px-4 py-2 rounded-lg mb-2 w-full"
-              />
+              >
+                <option value="user">User</option>
+                <option value="agent">Agent</option>
+              </select>
+            }
               <input
                 type="text"
                 placeholder="Téléphone"
@@ -370,7 +380,7 @@ const TableThree = () => {
                   Annuler
                 </button>
                 <button
-                 onClick={() => updateUser(user)}
+                 onClick={() => updateUser(editingUser._id, editingUser)}
                   className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
                 >
                   Mettre à jour l'utilisateur
@@ -381,6 +391,7 @@ const TableThree = () => {
         )}
       </div>
     </div>
+    </>
   );
 };
 

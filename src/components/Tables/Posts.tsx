@@ -22,14 +22,17 @@ const initialPostData: Post = {
 
 const TableTwo = () => {
   const [posts, setPosts] = useState<Post[]>([]);
+  const [regions, setRegions] = useState<Post[]>([]);
   const [showAddPopup, setShowAddPopup] = useState<boolean>(false);
   const [showEditPopup, setShowEditPopup] = useState<boolean>(false);
   const [currentPost, setCurrentPost] = useState<Post>(initialPostData);
 
   useEffect(() => {
     fetchPosts();
+    fetchRegions();
   }, []);
-
+  console.log(regions);
+  
   const fetchPosts = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -40,6 +43,21 @@ const TableTwo = () => {
       };
       const response = await axios.get<Post[]>('http://localhost:5000/api/posts/all', config);
       setPosts(response.data);
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+    }
+  };
+
+  const fetchRegions = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      };
+      const response = await axios.get<Post[]>('http://localhost:5000/api/postss/regions', config);
+      setRegions(response.data);
     } catch (error) {
       console.error('Error fetching posts:', error);
     }
@@ -115,10 +133,10 @@ const TableTwo = () => {
     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
       <div className="px-4 py-6 md:px-6 xl:px-7.5 flex justify-between items-center">
         <h4 className="text-xl font-semibold text-black dark:text-white">
-          Des postes
+          Postes
         </h4>
         <button onClick={() => setShowAddPopup(true)} className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
-          Ajouter le poste
+          Ajouter un poste
         </button>
       </div>
 
@@ -188,51 +206,51 @@ const TableTwo = () => {
       {showAddPopup && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50  lg:ml-[290px]">
           <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
-            <h3 className="font-medium text-lg mb-4">Ajouter le poste</h3>
+            <h3 className="font-medium text-lg mb-4">Ajouter un poste</h3>
             <input
               type="text"
               placeholder="Agence"
               value={currentPost.agence}
               onChange={(e: ChangeEvent<HTMLInputElement>) => setCurrentPost({ ...currentPost, agence: e.target.value })}
-              className="border  py-2 rounded-lg mb-2 w-full"
+              className="border  py-2 rounded-lg mb-2 w-full pl-3"
             />
             <input
               type="text"
               placeholder="Ville"
               value={currentPost.ville}
               onChange={(e: ChangeEvent<HTMLInputElement>) => setCurrentPost({ ...currentPost, ville: e.target.value })}
-              className="border  py-2 rounded-lg mb-2 w-full"
+              className="border  py-2 rounded-lg mb-2 w-full pl-3"
             />
             <input
               type="text"
               placeholder="Region"
               value={currentPost.region}
               onChange={(e: ChangeEvent<HTMLInputElement>) => setCurrentPost({ ...currentPost, region: e.target.value })}
-              className="border  py-2 rounded-lg mb-2 w-full"
+              className="border  py-2 rounded-lg mb-2 w-full pl-3"
             />
             <input
               type="text"
               placeholder="Description"
               value={currentPost.descriptionDuPoste}
               onChange={(e: ChangeEvent<HTMLInputElement>) => setCurrentPost({ ...currentPost, descriptionDuPoste: e.target.value })}
-              className="border  py-2 rounded-lg mb-2 w-full"
+              className="border  py-2 rounded-lg mb-2 w-full pl-3"
             />
             <input
               type="text"
               placeholder="conditions Et Avantages"
               value={currentPost.conditionsEtAvantages}
               onChange={(e: ChangeEvent<HTMLInputElement>) => setCurrentPost({ ...currentPost, conditionsEtAvantages: e.target.value })}
-              className="border  py-2 rounded-lg mb-2 w-full"
+              className="border  py-2 rounded-lg mb-2 w-full pl-3"
             />
             <input
               type="text"
               placeholder="presentation De L'entreprise"
               value={currentPost.presentationDeLEntreprise}
               onChange={(e: ChangeEvent<HTMLInputElement>) => setCurrentPost({ ...currentPost, presentationDeLEntreprise: e.target.value })}
-              className="border  py-2 rounded-lg mb-2 w-full"
+              className="border  py-2 rounded-lg mb-2 w-full pl-3"
             />
             <button onClick={handleAddPost} className="bg-blue-500 text-white px-4 py-2 rounded-lg">
-              Ajouter le poste
+              Ajouter un poste
             </button>
             <button onClick={() => setShowAddPopup(false)} className="bg-gray-300 text-black px-4 py-2 rounded-lg">
              Annuler

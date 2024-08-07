@@ -12,6 +12,7 @@ import DefaultLayout from "@/components/Layouts/DefaultLayout";
 
 const Users = () => {
   return (
+    <div className="h-screen">
     <DefaultLayout>
       <Breadcrumb pageName="Tables" />
 
@@ -20,6 +21,7 @@ const Users = () => {
         <TableThree />
       </div>
     </DefaultLayout>
+    </div>
   );
 };
 

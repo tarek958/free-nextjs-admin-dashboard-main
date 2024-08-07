@@ -86,6 +86,7 @@ const Settings = () => {
 
 
   return (
+    <div className="h-screen">
     <DefaultLayout>
       <div className="mx-auto max-w-270">
         <Breadcrumb pageName="Paramètres" />
@@ -310,6 +311,7 @@ const Settings = () => {
         </div>
       </div>
     </DefaultLayout>
+    </div>
   );
 };
 

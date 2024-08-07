@@ -194,7 +194,7 @@ const TableOne = () => {
       </div>
 
       <Transition appear show={isEditOpen || isAddOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={() => setIsEditOpen(false)}>
+        <Dialog as="div" className="relative z-9999" onClose={() => setIsEditOpen(false)}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -236,6 +236,13 @@ const TableOne = () => {
                       className="w-full px-3 py-2 mb-2 border rounded-md"
                       value={currentProject?.email || ''}
                       onChange={(e) => setCurrentProject({ ...currentProject, email: e.target.value })}
+                    />
+                    <input
+                      type="text"
+                      placeholder="Entreprise"
+                      className="w-full px-3 py-2 mb-2 border rounded-md"
+                      value={currentProject?.company || ''}
+                      onChange={(e) => setCurrentProject({ ...currentProject, company: e.target.value })}
                     />
                     <input
                       type="tel"

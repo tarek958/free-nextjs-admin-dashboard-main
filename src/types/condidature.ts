@@ -10,7 +10,17 @@ export interface FileUpload {
     size: number;          // Size of the file in bytes
 }
 // condidature.ts
+interface Experience {
+    jobTitle: string;
+    company: string;
+    duration: string;
+  }
 
+interface Education{
+    degree: string;
+    institution: string;
+    year: string;
+}
 export interface Candidate {
     _id: string;
     filename: string;
@@ -22,6 +32,8 @@ export interface Candidate {
     phone: string;
     path: string; 
     company:string;
+    experience: Experience[];
+    education : Education[];
 }
 
 // Type representing a user's details associated with a file upload

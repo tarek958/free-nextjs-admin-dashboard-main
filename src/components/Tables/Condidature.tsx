@@ -90,12 +90,12 @@ const TableFour: React.FC = () => {
             </div>
             <div className="p-2.5 text-center xl:p-4">
               <h5 className="text-sm font-medium uppercase xsm:text-base">
-                E-mail
+                Expérience
               </h5>
             </div>
             <div className="p-2.5 text-center xl:p-4">
               <h5 className="text-sm font-medium uppercase xsm:text-base">
-                Téléphone
+                Éducation
               </h5>
             </div>
             <div className="p-2.5 text-center xl:p-4">
@@ -122,10 +122,22 @@ const TableFour: React.FC = () => {
                 <p className="text-black dark:text-white">{candidate.comments}</p>
               </div>
               <div className="flex items-center justify-center p-2.5 xl:p-5">
-                <p className="text-black dark:text-white">{candidate.email}</p>
+                <p className="text-black dark:text-white">{candidate.experience.map((exp, index) => (
+      <div key={index} className="text-black dark:text-white">
+        <p>{exp.jobTitle}</p>
+        <p>{exp.company}</p>
+        <p>{exp.duration}</p>
+      </div>
+    ))}</p>
               </div>
               <div className="flex items-center justify-center p-2.5 xl:p-5">
-                <p className="text-black dark:text-white">{candidate.phone}</p>
+                <p className="text-black dark:text-white">{candidate.education.map((edc, index) => (
+      <div key={index} className="text-black dark:text-white">
+        <p>{edc.degree}</p>
+        <p>{edc.institution}</p>
+        <p>{edc.year}</p>
+      </div>
+    ))}</p>
               </div>
               <div className="flex items-center justify-center p-2.5 xl:p-5">
                 <a 

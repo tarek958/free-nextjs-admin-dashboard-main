@@ -1,5 +1,6 @@
 // pages/index.tsx
 import ECommerce from "@/components/Dashboard/E-commerce";
+import SignIn from "./auth/signin/page";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import { Metadata } from "next";
 

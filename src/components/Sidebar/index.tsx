@@ -249,12 +249,9 @@ const menuGroups = [
           </svg>
         ),
        
-        label: "Authentification",
-        route: "#",
-        children: [
-          { label: "Se connecter", route: "/auth/signin" },
-          { label: "S'inscrire", route: "/auth/signup" },
-        ],
+        label: "Se connecter",
+        route: "/auth/signin",
+        
       },
     ],
   },

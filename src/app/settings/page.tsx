@@ -54,7 +54,7 @@ const Settings = () => {
           }
         };
         
-        const response = await axios.get(`http://localhost:5000/api/users/${userId}`, config);
+        const response = await axios.get(`http://148.113.194.169:5000/api/users/${userId}`, config);
         setUser(response.data);
       } catch (err) {
         setError('Failed to fetch user data');
@@ -73,7 +73,7 @@ const Settings = () => {
             Authorization: `Bearer ${token}`
           }
         };
-      await axios.put(`http://localhost:5000/api/users/${userId}`,config);
+      await axios.put(`http://148.113.194.169:5000/api/users/${userId}`,config);
       toast.success('L\'utilisateur a mis à jour avec succès!');
       
      

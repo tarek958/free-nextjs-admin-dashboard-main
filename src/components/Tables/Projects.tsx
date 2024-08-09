@@ -35,7 +35,7 @@ const TableOne = () => {
             Authorization: `Bearer ${token}`
           }
         };
-        const response = await axios.get<Project[]>('http://localhost:5000/api/projects/all', config);
+        const response = await axios.get<Project[]>('http://148.113.194.169:5000/api/projects/all', config);
 
         let filteredProjects = response.data;
         if (role === 'agent' && company) {
@@ -59,7 +59,7 @@ const TableOne = () => {
           Authorization: `Bearer ${token}`
         }
       };
-      await axios.delete(`http://localhost:5000/api/projects/${id}`, config);
+      await axios.delete(`http://148.113.194.169:5000/api/projects/${id}`, config);
       toast.success('Projet supprimé avec succès!');
       setProjects(projects.filter(project => project._id !== id));
     } catch (error) {
@@ -88,18 +88,18 @@ const TableOne = () => {
     try {
       if (currentProject?._id) {
        
-        await axios.put(`http://localhost:5000/api/projects/${currentProject._id}`, currentProject, config);
+        await axios.put(`http://148.113.194.169:5000/api/projects/${currentProject._id}`, currentProject, config);
         toast.success('Projet mis à jour avec succès!');
       } else {
       
         const newProject = { ...currentProject, company };
-        const response = await axios.post('http://localhost:5000/api/projects', newProject, config);
+        const response = await axios.post('http://148.113.194.169:5000/api/projects', newProject, config);
         setProjects([...projects, response.data]);
         toast.success('Le projet a ajouté avec succès!');
       }
 
       
-      const response = await axios.get<Project[]>('http://localhost:5000/api/projects/all', config);
+      const response = await axios.get<Project[]>('http://148.113.194.169:5000/api/projects/all', config);
       let filteredProjects = response.data;
       if (role === 'agent' && company) {
         filteredProjects = filteredProjects.filter(project => project.company === company);

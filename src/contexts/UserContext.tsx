@@ -44,7 +44,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
             const config = {
               headers: { Authorization: `Bearer ${token}` },
             };
-            const response = await axios.get(`http://localhost:5000/api/users/${userId}`, config);
+            const response = await axios.get(`http://148.113.194.169:5000/api/users/${userId}`, config);
             setUser(response.data);
           } catch (error) {
             console.error('Error fetching user data:', error);

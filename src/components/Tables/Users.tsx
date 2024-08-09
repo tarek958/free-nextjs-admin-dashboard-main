@@ -44,7 +44,7 @@ const TableThree = () => {
         }
       };
 
-      const response = await axios.get('http://localhost:5000/api/users/all', config);
+      const response = await axios.get('http://148.113.194.169:5000/api/users/all', config);
       setUsers(response.data);
       filterUsers(response.data);
     } catch (error) {
@@ -87,7 +87,7 @@ const TableThree = () => {
           }
         };
   
-        const response = await axios.get('http://localhost:5000/api/users/all', config);
+        const response = await axios.get('http://148.113.194.169:5000/api/users/all', config);
         setUsers(response.data);
       } catch (error) {
         console.error('Error fetching users:', error);
@@ -105,7 +105,7 @@ const TableThree = () => {
             Authorization: `Bearer ${token}`
           }
         };
-      await axios.post('http://localhost:5000/api/users/signup', newUser, config);
+      await axios.post('http://148.113.194.169:5000/api/users/signup', newUser, config);
       setShowAddPopup(false);
       fetchUsers();
       toast.success('L\'utilisateur a ajouté avec succès!');
@@ -125,7 +125,7 @@ const TableThree = () => {
             Authorization: `Bearer ${token}`
           }
         };
-      await axios.put(`http://localhost:5000/api/users/${userId}`,user ,config);
+      await axios.put(`http://148.113.194.169:5000/api/users/${userId}`,user ,config);
       toast.success('User Updated successfully!');
       setShowEditPopup(false)
       fetchUsers();
@@ -146,7 +146,7 @@ const TableThree = () => {
           Authorization: `Bearer ${token}`
         }
       };
-      await axios.delete(`http://localhost:5000/api/users/${userId}`,config);
+      await axios.delete(`http://148.113.194.169:5000/api/users/${userId}`,config);
       toast.success('L\'utilisateur a supprimé avec succès!');
       fetchUsers();
       

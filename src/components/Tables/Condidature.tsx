@@ -4,7 +4,7 @@ import { Candidate } from '@/types/condidature';
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import DropdownDefault from "../Dropdowns/DropdownDefault";
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import "react-toastify/dist/ReactToastify.css";
 
 // Define the PDF.js version you are using
@@ -14,13 +14,14 @@ const getUserRoleAndCompany = () => {
   const token = localStorage.getItem('token');
   if (token) {
     const decoded: any = jwtDecode(token);
-    return { role: decoded.role, company: decoded.company };
+    return { role: decoded.role, company: decoded.company  };
   }
   return { role: null, company: null };
 };
 
 const TableFour: React.FC = () => {
   const [candidates, setCandidates] = useState<Candidate[]>([]);
+  const [role, setRole] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchCandidates = async () => {
@@ -31,9 +32,10 @@ const TableFour: React.FC = () => {
             Authorization: `Bearer ${token}`
           }
         };
-        const response = await axios.get("http://localhost:5000/api/files", config);
+        const response = await axios.get("http://148.113.194.169:5000/api/files", config);
 
         const { role, company } = getUserRoleAndCompany();
+        setRole(role);
 
         let filteredCandidates = response.data;
         if (role === 'agent' && company) {
@@ -56,7 +58,7 @@ const TableFour: React.FC = () => {
           Authorization: `Bearer ${token}`
         }
       };
-      await axios.delete(`http://localhost:5000/api/files/${id}`, config);
+      await axios.delete(`http://148.113.194.169:5000/api/files/${id}`, config);
       setCandidates(candidates.filter(candidate => candidate._id !== id));
       toast.success('Le candidat a supprimé avec succès!');
     } catch (error) {
@@ -110,63 +112,75 @@ const TableFour: React.FC = () => {
             </div>
           </div>
 
-          {candidates.map((candidate) => (
-            <div
-              className="grid grid-cols-6 border-b border-stroke dark:border-strokedark"
-              key={candidate._id}
-            >
-              <div className="flex items-center gap-3 p-2.5 xl:p-5">
-                <p className="text-black dark:text-white">{candidate.lastName}, {candidate.firstName}</p>
+          {candidates.map((candidate) => {
+            // Determine the file URL based on the role
+            const fileUrl = role === 'agent' 
+              ? `${candidate.fileUrl}CV_${candidate.filename}` 
+              : `${candidate.fileUrl}${candidate.filename}`;
+
+            return (
+              <div
+                className="grid grid-cols-6 border-b border-stroke dark:border-strokedark"
+                key={candidate._id}
+              >
+                <div className="flex items-center gap-3 p-2.5 xl:p-5">
+                  <p className="text-black dark:text-white">{candidate.lastName}, {candidate.firstName}</p>
+                </div>
+                <div className="flex items-center justify-center p-2.5 xl:p-5">
+                  <p className="text-black dark:text-white">{candidate.comments}</p>
+                </div>
+                <div className="flex items-center justify-center p-2.5 xl:p-5">
+                  <p className="text-black dark:text-white">
+                    {candidate.experience.map((exp, index) => (
+                      <div key={index} className="text-black dark:text-white">
+                        <p>{exp.jobTitle}</p>
+                        <p>{exp.company}</p>
+                        <p>{exp.duration}</p>
+                      </div>
+                    ))}
+                  </p>
+                </div>
+                <div className="flex items-center justify-center p-2.5 xl:p-5">
+                  <p className="text-black dark:text-white">
+                    {candidate.education.map((edc, index) => (
+                      <div key={index} className="text-black dark:text-white">
+                        <p>{edc.degree}</p>
+                        <p>{edc.institution}</p>
+                        <p>{edc.year}</p>
+                      </div>
+                    ))}
+                  </p>
+                </div>
+                <div className="flex items-center justify-center p-2.5 xl:p-5">
+                  <a 
+                    href={fileUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-blue-500 hover:underline"
+                  >
+                    Afficher le PDF
+                  </a>
+                </div>
+                <div className="flex items-center justify-center p-2.5 xl:p-5">
+                  <button
+                    onClick={() => handleRemoveCandidate(candidate._id)}
+                    className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                  >
+                    <svg width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M10 11V17" stroke="#ff0000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M14 11V17" stroke="#ff0000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M4 7H20" stroke="#ff0000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M6 7H12H18V18C18 19.6569 16.6569 21 15 21H9C7.34315 21 6 19.6569 6 18V7Z" stroke="#ff0000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z" stroke="#ff0000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </button>
+                </div>
               </div>
-              <div className="flex items-center justify-center p-2.5 xl:p-5">
-                <p className="text-black dark:text-white">{candidate.comments}</p>
-              </div>
-              <div className="flex items-center justify-center p-2.5 xl:p-5">
-                <p className="text-black dark:text-white">{candidate.experience.map((exp, index) => (
-      <div key={index} className="text-black dark:text-white">
-        <p>{exp.jobTitle}</p>
-        <p>{exp.company}</p>
-        <p>{exp.duration}</p>
-      </div>
-    ))}</p>
-              </div>
-              <div className="flex items-center justify-center p-2.5 xl:p-5">
-                <p className="text-black dark:text-white">{candidate.education.map((edc, index) => (
-      <div key={index} className="text-black dark:text-white">
-        <p>{edc.degree}</p>
-        <p>{edc.institution}</p>
-        <p>{edc.year}</p>
-      </div>
-    ))}</p>
-              </div>
-              <div className="flex items-center justify-center p-2.5 xl:p-5">
-                <a 
-                  href={candidate.fileUrl+candidate.filename} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="text-blue-500 hover:underline"
-                >
-                  Afficher le PDF
-                </a>
-              </div>
-              <div className="flex items-center justify-center p-2.5 xl:p-5">
-                <button
-                  onClick={() => handleRemoveCandidate(candidate._id)}
-                  className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
-                >
-                 <svg width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M10 11V17" stroke="#ff0000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        <path d="M14 11V17" stroke="#ff0000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        <path d="M4 7H20" stroke="#ff0000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        <path d="M6 7H12H18V18C18 19.6569 16.6569 21 15 21H9C7.34315 21 6 19.6569 6 18V7Z" stroke="#ff0000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        <path d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z" stroke="#ff0000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                </button>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

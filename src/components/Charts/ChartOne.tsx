@@ -110,7 +110,7 @@ const ChartOne: React.FC = () => {
 
         const decodedToken: any = jwtDecode(token);
 
-        const response = await axios.get("http://localhost:5000/api/users/chart-data", {
+        const response = await axios.get("http://148.113.194.169:5000/api/users/chart-data", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

@@ -41,7 +41,7 @@ const TableTwo = () => {
           Authorization: `Bearer ${token}`
         }
       };
-      const response = await axios.get<Post[]>('http://localhost:5000/api/posts/all', config);
+      const response = await axios.get<Post[]>('http://148.113.194.169:5000/api/posts/all', config);
       setPosts(response.data);
     } catch (error) {
       console.error('Error fetching posts:', error);
@@ -56,7 +56,7 @@ const TableTwo = () => {
           Authorization: `Bearer ${token}`
         }
       };
-      const response = await axios.get<Post[]>('http://localhost:5000/api/postss/regions', config);
+      const response = await axios.get<Post[]>('http://148.113.194.169:5000/api/postss/regions', config);
       setRegions(response.data);
     } catch (error) {
       console.error('Error fetching posts:', error);
@@ -75,7 +75,7 @@ const TableTwo = () => {
 
       const { _id, updatedAt, createdAt, ...postData } = currentPost;
   
-      const response = await axios.post<Post>('http://localhost:5000/api/posts/add', postData, config);
+      const response = await axios.post<Post>('http://148.113.194.169:5000/api/posts/add', postData, config);
       toast.success('Ajout avec succès!');
       setPosts([...posts, response.data]);
       setShowAddPopup(false);
@@ -99,7 +99,7 @@ const TableTwo = () => {
           Authorization: `Bearer ${token}`
         }
       };
-      const response = await axios.put<Post>(`http://localhost:5000/api/posts/${currentPost._id}`, currentPost,config);
+      const response = await axios.put<Post>(`http://148.113.194.169:5000/api/posts/${currentPost._id}`, currentPost,config);
       const updatedPosts = posts.map((post) =>
         post._id === currentPost._id ? response.data : post
       );
@@ -120,7 +120,7 @@ const TableTwo = () => {
           Authorization: `Bearer ${token}`
         }
       };
-      await axios.delete(`http://localhost:5000/api/posts/${postId}`,config);
+      await axios.delete(`http://148.113.194.169:5000/api/posts/${postId}`,config);
       toast.success('Post supprimé avec succès!');
       const updatedPosts = posts.filter((post) => post._id !== postId);
       setPosts(updatedPosts);

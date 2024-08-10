@@ -12,18 +12,32 @@ export const AuthProvider = ({ children }) => {
   const router = useRouter();
 
   useEffect(() => {
-    // Check authentication status on load
     const checkAuth = async () => {
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        router.push('/auth/signin'); // Redirect to login if no token
+        setLoading(false);
+        return;
+      }
+
       try {
-        const response = await axios.get('/api/auth/session');
+        const response = await axios.get('http://148.113.194.169:5000/api/users/check', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
         if (response.data.authenticated) {
           setIsAuthenticated(true);
         } else {
-          router.push('/login'); // Redirect to login page
+          localStorage.removeItem('token'); // Remove token if not authenticated
+          router.push('/auth/signin');
         }
       } catch (error) {
-        console.error("Authentication check failed:", error);
-        router.push('/login'); // Redirect to login page
+        console.error('Authentication check failed:', error);
+        localStorage.removeItem('token'); // Remove token on error
+        router.push('/auth/signin');
       } finally {
         setLoading(false);
       }
@@ -33,7 +47,7 @@ export const AuthProvider = ({ children }) => {
   }, [router]);
 
   if (loading) {
-    return <div>Loading...</div>; // You can customize this loading state
+    return <div>Loading...</div>;
   }
 
   return (

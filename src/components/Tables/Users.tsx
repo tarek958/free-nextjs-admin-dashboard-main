@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { User } from "@/types/user";
 import axios from "axios"; 
 import { config } from "process";
+import withAuth from '../withAuth';
 
 const token = localStorage.getItem('token');
 
@@ -397,4 +398,4 @@ const TableThree = () => {
   );
 };
 
-export default TableThree;
+export default withAuth(TableThree);

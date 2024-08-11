@@ -6,6 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import DropdownDefault from "../Dropdowns/DropdownDefault";
 import { jwtDecode } from 'jwt-decode';
 import "react-toastify/dist/ReactToastify.css";
+import withAuth from "../withAuth";
 
 // Define the PDF.js version you are using
 const pdfjsVersion = '3.6.172'; // Replace this with the version of pdfjs-dist you have installed
@@ -185,4 +186,4 @@ const TableFour: React.FC = () => {
   );
 };
 
-export default TableFour;
+export default withAuth(TableFour);

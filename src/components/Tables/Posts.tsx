@@ -6,6 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 import { Post } from '@/types/post';
+import withAuth from '../withAuth';
 
 // Define the initial post data
 const initialPostData: Post = {
@@ -318,4 +319,4 @@ const TableTwo = () => {
   );
 };
 
-export default TableTwo;
+export default withAuth(TableTwo);

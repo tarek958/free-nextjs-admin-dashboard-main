@@ -8,6 +8,7 @@ import {jwtDecode} from 'jwt-decode';
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import "react-toastify/dist/ReactToastify.css";
+import withAuth from '../withAuth';
 
 const getUserRoleAndCompany = () => {
   const token = localStorage.getItem('token');
@@ -312,4 +313,4 @@ const TableOne = () => {
   );
 };
 
-export default TableOne;
+export default withAuth(TableOne);

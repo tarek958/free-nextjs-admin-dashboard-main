@@ -93,7 +93,7 @@ const TableOne = () => {
         toast.success('Projet mis à jour avec succès!');
       } else {
       
-        const newProject = { ...currentProject, company: currentProject?.company , name : currentProject?.name, email :  currentProject?.email, telephone:currentProject?.telephone,message: currentProject?.message};
+        const newProject = { ...currentProject, company: currentProject?.company };
         const response = await axios.post('http://148.113.194.169:5000/api/projects', newProject, config);
         setProjects([...projects, response.data]);
         toast.success('Le projet a ajouté avec succès!');

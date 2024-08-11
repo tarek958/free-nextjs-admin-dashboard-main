@@ -138,6 +138,9 @@ const TableThree = () => {
       console.error('Error deleting user:', error);
     }
   };
+  const validateForm = () => {
+    return newUser.firstName && newUser.lastName && newUser.email && newUser.role && newUser.telephone && newUser.company && newUser.password;
+  };
 
   return (
     <>
@@ -237,77 +240,122 @@ const TableThree = () => {
         
         {/* Add User Popup */}
         {showAddPopup && (
-          <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50  lg:ml-[290px]">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
-              <h3 className="font-medium text-lg mb-4">Ajouter un nouvel utilisateur</h3>
-              <input
-                type="text"
-                placeholder="Prénom"
-                value={newUser.firstName}
-                onChange={(e) => setNewUser({ ...newUser, firstName: e.target.value })}
-                className="border  py-2 rounded-lg mb-2 w-full px-3"
-              />
-              <input
-                type="text"
-                placeholder="Nom de famille"
-                value={newUser.lastName}
-                onChange={(e) => setNewUser({ ...newUser, lastName: e.target.value })}
-                className="border  py-2 rounded-lg mb-2 w-full px-3"
-              />
-              <input
-                type="email"
-                placeholder="E-mail"
-                value={newUser.email}
-                onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
-                className="border  py-2 rounded-lg mb-2 w-full px-3"
-              />
-              <select
-  value={newUser.role}
-  onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}
-  className="border py-2 rounded-lg mb-2 w-full px-3"
->
-  <option value="user">User</option>
-  <option value="agent">Agent</option>
-</select>
+  <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 lg:ml-[290px]">
+    <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
+      <h3 className="font-medium text-lg mb-4">Ajouter un nouvel utilisateur</h3>
+      <div className="mb-2">
+        <label className="block text-sm font-medium mb-1">
+          Prénom <span className="text-red-500">*</span>
+        </label>
+        <input
+          type="text"
+          placeholder="Prénom"
+          value={newUser.firstName}
+          onChange={(e) => setNewUser({ ...newUser, firstName: e.target.value })}
+          className="border py-2 rounded-lg w-full px-3"
+        />
+      </div>
+      <div className="mb-2">
+        <label className="block text-sm font-medium mb-1">
+          Nom de famille <span className="text-red-500">*</span>
+        </label>
+        <input
+          type="text"
+          placeholder="Nom de famille"
+          value={newUser.lastName}
+          onChange={(e) => setNewUser({ ...newUser, lastName: e.target.value })}
+          className="border py-2 rounded-lg w-full px-3"
+        />
+      </div>
+      <div className="mb-2">
+        <label className="block text-sm font-medium mb-1">
+          E-mail <span className="text-red-500">*</span>
+        </label>
+        <input
+          type="email"
+          placeholder="E-mail"
+          value={newUser.email}
+          onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
+          className="border py-2 rounded-lg w-full px-3"
+        />
+      </div>
+      <div className="mb-2">
+        <label className="block text-sm font-medium mb-1">
+          Rôle <span className="text-red-500">*</span>
+        </label>
+        <select
+          value={newUser.role}
+          onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}
+          className="border py-2 rounded-lg w-full px-3"
+        >
+          <option value="" disabled>Select role</option>
+          <option value="user">User</option>
+          <option value="agent">Agent</option>
+        </select>
+      </div>
+      <div className="mb-2">
+        <label className="block text-sm font-medium mb-1">
+          Téléphone <span className="text-red-500">*</span>
+        </label>
+        <input
+          type="text"
+          placeholder="Téléphone"
+          value={newUser.telephone}
+          onChange={(e) => setNewUser({ ...newUser, telephone: e.target.value })}
+          className="border py-2 rounded-lg w-full px-3"
+        />
+      </div>
+      <div className="mb-2">
+        <label className="block text-sm font-medium mb-1">
+          Entreprise <span className="text-red-500">*</span>
+        </label>
+        <input
+          type="text"
+          placeholder="Entreprise"
+          value={newUser.company}
+          onChange={(e) => setNewUser({ ...newUser, company: e.target.value })}
+          className="border py-2 rounded-lg w-full px-3"
+        />
+      </div>
+      <div className="mb-4">
+        <label className="block text-sm font-medium mb-1">
+          Mot de passe <span className="text-red-500">*</span>
+        </label>
+        <input
+          type="password"
+          placeholder="Mot de passe"
+          value={newUser.password}
+          onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
+          className="border py-2 rounded-lg w-full px-3"
+        />
+      </div>
+      <div className="flex justify-end space-x-2 mt-4">
+        <button
+          onClick={() => setShowAddPopup(false)}
+          className="py-2 bg-gray-300 text-black rounded-lg hover:bg-gray-400"
+        >
+          Annuler
+        </button>
+        <button
+          onClick={() => {
+            if (validateForm()) {
+              addUser();
+              setShowAddPopup(false);
+            } else {
+              alert('Veuillez remplir tous les champs obligatoires.');
+            }
+          }}
+          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+        >
+          Ajouter l&#39;utilisateur
+        </button>
+      </div>
+    </div>
+  </div>
+)}
 
-              <input
-                type="text"
-                placeholder="Téléphone"
-                value={newUser.telephone}
-                onChange={(e) => setNewUser({ ...newUser, telephone: e.target.value })}
-                className="border  py-2 rounded-lg mb-2 w-full px-3"
-              />
-              <input
-                type="text"
-                placeholder="Entreprise"
-                value={newUser.company}
-                onChange={(e) => setNewUser({ ...newUser, company: e.target.value })}
-                className="border  py-2 rounded-lg mb-2 w-full px-3"
-              />
-              <input
-                type="password"
-                placeholder="Mot de passe"
-                value={newUser.password}
-                onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
-                className="border  py-2 rounded-lg mb-2 w-full px-3"
-              />
-              <div className="flex justify-end space-x-2 mt-4">
-                <button
-                  onClick={() => setShowAddPopup(false)}
-                  className=" py-2 bg-gray-300 text-black rounded-lg hover:bg-gray-400"
-                >
-                  Annuler
-                </button>
-                <button
-                  onClick={addUser}
-                  className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-                >
-                  Ajouter l&#39;utilisateur
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+
+
         {/* Edit User Popup */}
         {showEditPopup && editingUser && (
           <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 lg:ml-[290px]">

@@ -228,7 +228,7 @@ const TableOne = () => {
                       type="text"
                       placeholder="Nom"
                       className="w-full px-3 py-2 mb-2 border rounded-md"
-                      value={currentProject?.name || ''}
+                      value={currentProject?.name }
                       onChange={(e) => {
                         if (currentProject) {
                           setCurrentProject({ ...currentProject, name: e.target.value });
@@ -240,7 +240,7 @@ const TableOne = () => {
                       type="email"
                       placeholder="E-mail"
                       className="w-full px-3 py-2 mb-2 border rounded-md"
-                      value={currentProject?.email || ''}
+                      value={currentProject?.email }
                       onChange={(e) => {
                         if (currentProject) {
                           setCurrentProject({ ...currentProject, name: e.target.value });
@@ -251,7 +251,7 @@ const TableOne = () => {
                       type="text"
                       placeholder="Entreprise"
                       className="w-full px-3 py-2 mb-2 border rounded-md"
-                      value={currentProject?.company || ''}
+                      value={currentProject?.company }
                       onChange={(e) => {
                         if (currentProject) {
                           setCurrentProject({ ...currentProject, name: e.target.value });
@@ -262,7 +262,7 @@ const TableOne = () => {
                       type="tel"
                       placeholder="Téléphone"
                       className="w-full px-3 py-2 mb-2 border rounded-md"
-                      value={currentProject?.telephone || ''}
+                      value={currentProject?.telephone }
                       onChange={(e) => {
                         if (currentProject) {
                           setCurrentProject({ ...currentProject, name: e.target.value });
@@ -272,7 +272,7 @@ const TableOne = () => {
                     <textarea
                       placeholder="Message"
                       className="w-full px-3 py-2 mb-2 border rounded-md"
-                      value={currentProject?.message || ''}
+                      value={currentProject?.message }
                       onChange={(e) => {
                         if (currentProject) {
                           setCurrentProject({ ...currentProject, name: e.target.value });

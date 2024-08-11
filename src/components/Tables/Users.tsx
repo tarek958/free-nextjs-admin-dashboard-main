@@ -107,7 +107,7 @@ const TableThree = () => {
             Authorization: `Bearer ${token}`
           }
         };
-      await axios.post('http://148.113.194.169:5000/api/users/signup', newUser, config);
+      await axios.post('http://148.113.194.169:5000/api/users/create-user', newUser, config);
       setShowAddPopup(false);
       fetchUsers();
       toast.success('L\'utilisateur a ajouté avec succès!');

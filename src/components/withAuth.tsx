@@ -12,10 +12,9 @@ export default function withAuth(Component: any) {
     useLayoutEffect(() => {
       const checkAuth = async () => {
         try {
-          const token = localStorage.getItem("token"); 
+          const token = localStorage.getItem("token");
 
           if (!token) {
-           
             router.push("/auth/signin");
             return;
           }
@@ -26,28 +25,33 @@ export default function withAuth(Component: any) {
             },
           });
 
-          const isAuthenticated = response.data.authenticated;
+          const { authenticated, user } = response.data;
 
-          if (!isAuthenticated) {
-            router.push("/auth/signin"); 
-          } else {
-            setSession(true); 
+          if (!authenticated) {
+            router.push("/auth/signin");
+            return;
           }
+
+       
+          if (user.role !== "user") {
+            router.push("http://148.113.194.169:3001/");
+            return;
+          }
+
+          setSession(true);
         } catch (error) {
           console.error("Error checking authentication:", error);
-          router.push("/auth/signin"); 
+          router.push("/auth/signin");
         }
       };
 
-      checkAuth(); 
+      checkAuth();
     }, [router]);
 
     if (session === null) {
-      
-      return null;
+      return null; 
     }
 
-    
     return <Component {...props} />;
   };
 }

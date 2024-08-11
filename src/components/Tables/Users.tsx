@@ -76,28 +76,9 @@ const TableThree = () => {
 
   useEffect(() => {
     fetchUsers();
-  }, [fetchUsers]);
-  
-  useEffect(() => {
-    const fetchUsers = async () => {
-      
-      try {
-        const token = localStorage.getItem('token');
-        const config = {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        };
-  
-        const response = await axios.get('http://148.113.194.169:5000/api/users/all', config);
-        setUsers(response.data);
-      } catch (error) {
-        console.error('Error fetching users:', error);
-      }
-    };
-
-    fetchUsers();
   }, []);
+  
+  
 
   const addUser = async () => {
     try {
@@ -110,7 +91,7 @@ const TableThree = () => {
       await axios.post('http://148.113.194.169:5000/api/users/create-user', newUser, config);
       setShowAddPopup(false);
       fetchUsers();
-      toast.success('L\'utilisateur a ajouté avec succès!');
+      toast.success('Utilisateur a ajouté avec succès!');
   
     } catch (error) {
       console.error('Error adding user:', error);
@@ -128,7 +109,7 @@ const TableThree = () => {
           }
         };
       await axios.put(`http://148.113.194.169:5000/api/users/${userId}`,user ,config);
-      toast.success('User Updated successfully!');
+      toast.success('Utilisateur mis à jour avec succès!');
       setShowEditPopup(false)
       fetchUsers();
       // Refresh user list or handle success
@@ -280,13 +261,15 @@ const TableThree = () => {
                 onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
                 className="border  py-2 rounded-lg mb-2 w-full px-3"
               />
-              <input
-                type="text"
-                placeholder="Rôle"
-                value={newUser.role}
-                onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}
-                className="border  py-2 rounded-lg mb-2 w-full px-3"
-              />
+              <select
+  value={newUser.role}
+  onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}
+  className="border py-2 rounded-lg mb-2 w-full px-3"
+>
+  <option value="user">User</option>
+  <option value="agent">Agent</option>
+</select>
+
               <input
                 type="text"
                 placeholder="Téléphone"

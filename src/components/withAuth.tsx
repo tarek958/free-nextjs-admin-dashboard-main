@@ -33,7 +33,7 @@ export default function withAuth(Component: any) {
           }
 
        
-          if (user.role !== "user") {
+          if (user.role === "user") {
             router.push("http://148.113.194.169:3001/");
             return;
           }

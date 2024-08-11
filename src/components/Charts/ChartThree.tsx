@@ -149,7 +149,7 @@ const ChartThree: React.FC = () => {
             <div className="flex w-full items-center">
               <span
                 className="mr-2 block h-3 w-full max-w-3 rounded-full"
-                style={{ backgroundColor: options.colors[index % options.colors.length] }}
+                style={{ backgroundColor: 'blue' }}
               ></span>
               <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
                 <span>{company}</span>

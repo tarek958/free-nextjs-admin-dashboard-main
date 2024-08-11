@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
       }
 
       try {
-        const response = await axios.get('http://148.113.194.169:5000/api/users/check', {
+        const response = await axios.get('http://148.113.194.169:5000/check', {
           headers: {
             Authorization: `Bearer ${token}`,
           },

@@ -39,7 +39,7 @@ const TableFour: React.FC = () => {
 
         let filteredCandidates = response.data;
         if (role === 'agent' && company) {
-          filteredCandidates = filteredCandidates.filter(candidate => candidate.company === company);
+          filteredCandidates = filteredCandidates.filter((candidate: Candidate) => candidate.company === company);
         }
 
         setCandidates(filteredCandidates);

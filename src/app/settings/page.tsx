@@ -34,31 +34,34 @@ const Settings = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          setError("No token found");
-          window.location.href = "/auth/signin";
-          setLoading(false);
-          return;
+        // Ensure code only runs client-side
+        if (typeof window !== "undefined") {
+          const token = localStorage.getItem("token");
+          if (!token) {
+            setError("No token found");
+            window.location.href = "/auth/signin";
+            setLoading(false);
+            return;
+          }
+
+          const decoded: JwtPayload = jwtDecode(token);
+          const userId = decoded.id;
+
+          const config = {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          };
+
+          const response = await axios.get(`http://148.113.194.169:5000/api/users/${userId}`, config);
+          setUser(response.data);
+          setFormData({
+            firstName: response.data.firstName,
+            lastName: response.data.lastName,
+            telephone: response.data.telephone,
+            email: response.data.email,
+          });
         }
-
-        const decoded: JwtPayload = jwtDecode(token);
-        const userId = decoded.id;
-
-        const config = {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        };
-
-        const response = await axios.get(`http://148.113.194.169:5000/api/users/${userId}`, config);
-        setUser(response.data);
-        setFormData({
-          firstName: response.data.firstName,
-          lastName: response.data.lastName,
-          telephone: response.data.telephone,
-          email: response.data.email,
-        });
       } catch (err) {
         setError("Failed to fetch user data");
       } finally {
@@ -68,7 +71,6 @@ const Settings = () => {
 
     fetchUserData();
   }, []);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
@@ -218,7 +220,7 @@ const Settings = () => {
                     </div>
           <div>
             <span className="mb-1.5 text-black dark:text-white">
-              Nom d'utilisateur: {user?.firstName || ''} {user?.lastName || ''}<br />
+              Nom d&#39;utilisateur: {user?.firstName || ''} {user?.lastName || ''}<br />
               E-mail: {user?.email || ''}<br />
               Téléphone: {user?.telephone || ''}
             </span>

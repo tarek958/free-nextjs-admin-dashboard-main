@@ -228,34 +228,55 @@ const TableOne = () => {
                       placeholder="Nom"
                       className="w-full px-3 py-2 mb-2 border rounded-md"
                       value={currentProject?.name || ''}
-                      onChange={(e) => setCurrentProject({ ...currentProject, name: e.target.value })}
+                      onChange={(e) => {
+                        if (currentProject) {
+                          setCurrentProject({ ...currentProject, name: e.target.value });
+                        }
+                      }}
+                      
                     />
                     <input
                       type="email"
                       placeholder="E-mail"
                       className="w-full px-3 py-2 mb-2 border rounded-md"
                       value={currentProject?.email || ''}
-                      onChange={(e) => setCurrentProject({ ...currentProject, email: e.target.value })}
+                      onChange={(e) => {
+                        if (currentProject) {
+                          setCurrentProject({ ...currentProject, name: e.target.value });
+                        }
+                      }}
                     />
                     <input
                       type="text"
                       placeholder="Entreprise"
                       className="w-full px-3 py-2 mb-2 border rounded-md"
                       value={currentProject?.company || ''}
-                      onChange={(e) => setCurrentProject({ ...currentProject, company: e.target.value })}
+                      onChange={(e) => {
+                        if (currentProject) {
+                          setCurrentProject({ ...currentProject, name: e.target.value });
+                        }
+                      }}
                     />
                     <input
                       type="tel"
                       placeholder="Téléphone"
                       className="w-full px-3 py-2 mb-2 border rounded-md"
                       value={currentProject?.telephone || ''}
-                      onChange={(e) => setCurrentProject({ ...currentProject, telephone: e.target.value })}
+                      onChange={(e) => {
+                        if (currentProject) {
+                          setCurrentProject({ ...currentProject, name: e.target.value });
+                        }
+                      }}
                     />
                     <textarea
                       placeholder="Message"
                       className="w-full px-3 py-2 mb-2 border rounded-md"
                       value={currentProject?.message || ''}
-                      onChange={(e) => setCurrentProject({ ...currentProject, message: e.target.value })}
+                      onChange={(e) => {
+                        if (currentProject) {
+                          setCurrentProject({ ...currentProject, name: e.target.value });
+                        }
+                      }}
                     />
                   </div>
 

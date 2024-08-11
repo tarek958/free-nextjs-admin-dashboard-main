@@ -23,6 +23,7 @@ interface Education{
 }
 export interface Candidate {
     _id: string;
+    
     filename: string;
     lastName: string;
     fileUrl:string;

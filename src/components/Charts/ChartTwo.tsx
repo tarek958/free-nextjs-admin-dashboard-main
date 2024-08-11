@@ -80,11 +80,11 @@ const ChartTwo: React.FC = () => {
   const [series, setSeries] = useState([
     {
       name: "CV",
-      data: [],
+      data: [1,2,3],
     },
     {
       name: "jour",
-      data: [],
+      data: [1,2,3],
     },
   ]);
 

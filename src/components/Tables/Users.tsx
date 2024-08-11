@@ -28,6 +28,7 @@ const TableThree = () => {
     password: ''
   });
   const [editingUser, setEditingUser] = useState({
+    _id:'',
     firstName: '',
     lastName: '',
     email: '',
@@ -74,7 +75,7 @@ const TableThree = () => {
 
   useEffect(() => {
     fetchUsers();
-  }, []);
+  }, [fetchUsers]);
   
   useEffect(() => {
     const fetchUsers = async () => {
@@ -134,10 +135,11 @@ const TableThree = () => {
       console.error('Error updating user:', error);
     }
   };
-  const handleEditUser = (user) => {
+  const handleEditUser = (user: User) => {
     setEditingUser(user);
     setShowEditPopup(true);
   };
+  
   const deleteUser = async (userId: string) => {
     try {
       const token = localStorage.getItem('token');
@@ -163,7 +165,7 @@ const TableThree = () => {
           onClick={() => setShowAddPopup(true)}
           className=" w-44 px-4 py-2 bg-blue-500 text-white rounded-lg shadow-lg hover:bg-blue-600"
         >
-          Ajouter l'utilisateur
+          Ajouter l&#39;utilisateur
         </button>
         </div>
     <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
@@ -316,7 +318,7 @@ const TableThree = () => {
                   onClick={addUser}
                   className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
                 >
-                  Ajouter l'utilisateur
+                  Ajouter l&#39;utilisateur
                 </button>
               </div>
             </div>
@@ -326,7 +328,7 @@ const TableThree = () => {
         {showEditPopup && editingUser && (
           <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 lg:ml-[290px]">
             <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
-              <h3 className="font-medium text-lg mb-4">Modifier l'utilisateur</h3>
+              <h3 className="font-medium text-lg mb-4">Modifier l&#39;utilisateur</h3>
               <input
                 type="text"
                 placeholder="Prénom"
@@ -383,7 +385,7 @@ const TableThree = () => {
                  onClick={() => updateUser(editingUser._id, editingUser)}
                   className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
                 >
-                  Mettre à jour l'utilisateur
+                  Mettre à jour l&#39;utilisateur
                 </button>
               </div>
             </div>

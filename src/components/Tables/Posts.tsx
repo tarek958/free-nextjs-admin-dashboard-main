@@ -3,7 +3,7 @@
 import { useState, useEffect, ChangeEvent } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
-
+import {jwtDecode} from 'jwt-decode';
 import "react-toastify/dist/ReactToastify.css";
 import { Post } from '@/types/post';
 import withAuth from '../withAuth';
@@ -20,14 +20,21 @@ const initialPostData: Post = {
   createdAt: '',
   updatedAt: '',
 };
-
+const getUserRoleAndCompany = () => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    const decoded: any = jwtDecode(token);
+    return { role: decoded.role, company: decoded.company };
+  }
+  return { role: null, company: null };
+};
 const TableTwo = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [regions, setRegions] = useState<Post[]>([]);
   const [showAddPopup, setShowAddPopup] = useState<boolean>(false);
   const [showEditPopup, setShowEditPopup] = useState<boolean>(false);
   const [currentPost, setCurrentPost] = useState<Post>(initialPostData);
-
+  const { role, company } = getUserRoleAndCompany();
   useEffect(() => {
     fetchPosts();
     fetchRegions();
@@ -36,18 +43,31 @@ const TableTwo = () => {
   
   const fetchPosts = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`
+        const token = localStorage.getItem('token');
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        };
+
+        
+        const response = await axios.get<Post[]>('http://148.113.194.169:5000/api/posts/all', config);
+        let filteredPosts = response.data;
+
+        
+      
+       
+        if (role === 'agent' && company) {
+            filteredPosts = filteredPosts.filter(post => post.agence === company);
         }
-      };
-      const response = await axios.get<Post[]>('http://148.113.194.169:5000/api/posts/all', config);
-      setPosts(response.data);
+
+        
+        setPosts(filteredPosts);
     } catch (error) {
-      console.error('Error fetching posts:', error);
+        console.error('Error fetching posts:', error);
     }
-  };
+};
+
 
   const fetchRegions = async () => {
     try {

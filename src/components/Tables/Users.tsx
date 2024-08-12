@@ -12,13 +12,20 @@ import { config } from "process";
 import withAuth from '../withAuth';
 
 const token = localStorage.getItem('token');
-
+ const getUserRoleAndCompany = () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decoded: any = jwtDecode(token);
+      return { role: decoded.role, company: decoded.company };
+    }
+    return { role: null, company: null };
+  };
 const TableThree = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [showAddPopup, setShowAddPopup] = useState(false);
   const [showEditPopup, setShowEditPopup] = useState(false);
- 
+  const { role, company } = getUserRoleAndCompany();
   const [newUser, setNewUser] = useState({
     firstName: '',
     lastName: '',
@@ -54,17 +61,10 @@ const TableThree = () => {
     }
     
   };
-  const getUserRoleAndCompany = () => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const decoded: any = jwtDecode(token);
-      return { role: decoded.role, company: decoded.company };
-    }
-    return { role: null, company: null };
-  };
+ 
 
   const filterUsers = (users: User[]) => {
-    const { role, company } = getUserRoleAndCompany();
+    
 
     console.log("Role : "+role)
     if (role === 'agent' && company) {
@@ -279,6 +279,7 @@ const TableThree = () => {
           className="border py-2 rounded-lg w-full px-3"
         />
       </div>
+  
       <div className="mb-2">
         <label className="block text-sm font-medium mb-1">
           Rôle <span className="text-red-500">*</span>
@@ -293,6 +294,7 @@ const TableThree = () => {
           <option value="agent">Agent</option>
         </select>
       </div>
+  
       <div className="mb-2">
         <label className="block text-sm font-medium mb-1">
           Téléphone <span className="text-red-500">*</span>
@@ -382,7 +384,7 @@ const TableThree = () => {
                 onChange={(e) => setEditingUser({ ...editingUser, email: e.target.value })}
                 className="border px-4 py-2 rounded-lg mb-2 w-full"
               />
-              {editingUser.role !== "admin" &&
+              {editingUser.role === "admin" &&
                             <select
                 value={editingUser.role}
                 onChange={(e) => setEditingUser({ ...editingUser, role: e.target.value })}

@@ -4,7 +4,7 @@
 export interface FileUpload {
     _id: string;
     originalName: string;  // Original name of the file
-    filename: string;      // Name of the file on the server
+    filenamee: string;      // Name of the file on the server
     path: string;          // Path where the file is stored
     mimetype: string;      // MIME type of the file
     size: number;          // Size of the file in bytes
@@ -24,7 +24,7 @@ interface Education{
 export interface Candidate {
     _id: string;
     
-    filename: string;
+    filenamee: string;
     lastName: string;
     fileUrl:string;
     firstName: string;

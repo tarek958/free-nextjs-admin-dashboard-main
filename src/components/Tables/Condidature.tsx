@@ -116,8 +116,8 @@ const TableFour: React.FC = () => {
           {candidates.map((candidate) => {
             // Determine the file URL based on the role
             const fileUrl = role === 'agent' 
-              ? `${candidate.fileUrl}CV_${candidate.filename}` 
-              : `${candidate.fileUrl}${candidate.filename}`;
+              ? `${candidate.fileUrl}CV_${candidate.filenamee}` 
+              : `${candidate.fileUrl}${candidate.filenamee}`;
 
             return (
               <div

@@ -231,6 +231,13 @@ const TableTwo = () => {
             <h3 className="font-medium text-lg mb-4">Ajouter un poste</h3>
             <input
               type="text"
+              placeholder="Contrat"
+              value={currentPost.contract}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setCurrentPost({ ...currentPost, contract: e.target.value })}
+              className="border  py-2 rounded-lg mb-2 w-full pl-3"
+            />
+            <input
+              type="text"
               placeholder="Agence"
               value={currentPost.agence}
               onChange={(e: ChangeEvent<HTMLInputElement>) => setCurrentPost({ ...currentPost, agence: e.target.value })}

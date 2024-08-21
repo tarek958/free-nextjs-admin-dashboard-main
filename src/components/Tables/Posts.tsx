@@ -14,6 +14,7 @@ const initialPostData: Post = {
   agence: '',
   ville: '',
   region: '',
+  contract:'',
   descriptionDuPoste: '',
   conditionsEtAvantages: '',
   presentationDeLEntreprise: '',

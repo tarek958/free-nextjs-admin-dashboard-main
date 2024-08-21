@@ -1,28 +1,28 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { Candidate } from '@/types/condidature';
-import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
-import DropdownDefault from "../Dropdowns/DropdownDefault";
-import { jwtDecode } from 'jwt-decode';
-import "react-toastify/dist/ReactToastify.css";
-import withAuth from "../withAuth";
 
-// Define the PDF.js version you are using
-const pdfjsVersion = '3.6.172'; // Replace this with the version of pdfjs-dist you have installed
+import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import withAuth from '../withAuth';
+import { Candidate } from '@/types/condidature';
+import { jwtDecode } from 'jwt-decode';
 
 const getUserRoleAndCompany = () => {
   const token = localStorage.getItem('token');
   if (token) {
     const decoded: any = jwtDecode(token);
-    return { role: decoded.role, company: decoded.company  };
+    return { role: decoded.role, company: decoded.company };
   }
   return { role: null, company: null };
 };
 
 const TableFour: React.FC = () => {
+  const router = useRouter();
   const [candidates, setCandidates] = useState<Candidate[]>([]);
   const [role, setRole] = useState<string | null>(null);
+  const [posts, setPosts] = useState<{ [postId: string]: any[] }>({});
 
   useEffect(() => {
     const fetchCandidates = async () => {
@@ -48,6 +48,7 @@ const TableFour: React.FC = () => {
         console.error("Error fetching candidates:", error);
       }
     };
+
     fetchCandidates();
   }, []);
 
@@ -67,6 +68,10 @@ const TableFour: React.FC = () => {
     }
   };
 
+  const handleViewPostDetails = (id: string) => {
+    router.push(`/tables/${id}`);
+  };
+
   return (
     <div className="col-span-12 xl:col-span-7">
       <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
@@ -76,7 +81,6 @@ const TableFour: React.FC = () => {
               Candidats
             </h4>
           </div>
-          {/* <DropdownDefault /> */}
         </div>
 
         <div className="flex flex-col">
@@ -114,17 +118,19 @@ const TableFour: React.FC = () => {
           </div>
 
           {candidates.map((candidate) => {
-            // Determine the file URL based on the role
             const fileUrl = role === 'agent' 
               ? `${candidate.fileUrl}CV_${candidate.filenamee}` 
               : `${candidate.fileUrl}${candidate.filenamee}`;
-
+            
             return (
               <div
                 className="grid grid-cols-6 border-b border-stroke dark:border-strokedark"
                 key={candidate._id}
               >
-                <div className="flex items-center gap-3 p-2.5 xl:p-5">
+                <div 
+                  className="flex items-center gap-3 p-2.5 xl:p-5 cursor-pointer"
+                  onClick={() => handleViewPostDetails(candidate.PostId)}
+                >
                   <p className="text-black dark:text-white">{candidate.lastName}, {candidate.firstName}</p>
                 </div>
                 <div className="flex items-center justify-center p-2.5 xl:p-5">
@@ -172,7 +178,6 @@ const TableFour: React.FC = () => {
                       <path d="M14 11V17" stroke="#ff0000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                       <path d="M4 7H20" stroke="#ff0000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                       <path d="M6 7H12H18V18C18 19.6569 16.6569 21 15 21H9C7.34315 21 6 19.6569 6 18V7Z" stroke="#ff0000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      <path d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z" stroke="#ff0000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                   </button>
                 </div>
@@ -180,8 +185,8 @@ const TableFour: React.FC = () => {
             );
           })}
         </div>
+        <ToastContainer />
       </div>
-      <ToastContainer />
     </div>
   );
 };

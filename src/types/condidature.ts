@@ -29,6 +29,7 @@ export interface Candidate {
     fileUrl:string;
     firstName: string;
     comments: string;
+    PostId:string;
     email: string;
     phone: string;
     path: string; 

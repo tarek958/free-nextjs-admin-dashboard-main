@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import axios from "axios";
 import {jwtDecode} from "jwt-decode";
+import Loader from "../common/Loader";
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
@@ -140,7 +141,7 @@ const ChartOne: React.FC = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div><Loader /></div>;
   }
 
   return (

@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import Loader from '@/components/common/Loader';
 
 // Create a Context for Auth
 const AuthContext = createContext();
@@ -16,7 +17,7 @@ export const AuthProvider = ({ children }) => {
       const token = localStorage.getItem('token');
 
       if (!token) {
-        router.push('/auth/signin'); // Redirect to login if no token
+        router.push('/auth/signin'); 
         setLoading(false);
         return;
       }
@@ -31,12 +32,12 @@ export const AuthProvider = ({ children }) => {
         if (response.data.authenticated) {
           setIsAuthenticated(true);
         } else {
-          localStorage.removeItem('token'); // Remove token if not authenticated
+          localStorage.removeItem('token'); 
           router.push('/auth/signin');
         }
       } catch (error) {
         console.error('Authentication check failed:', error);
-        localStorage.removeItem('token'); // Remove token on error
+        localStorage.removeItem('token'); 
         router.push('/auth/signin');
       } finally {
         setLoading(false);
@@ -47,7 +48,7 @@ export const AuthProvider = ({ children }) => {
   }, [router]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div><Loader/></div>;
   }
 
   return (

@@ -5,6 +5,7 @@ export interface Post {
   agence: string;
   ville: string;
   region: string;
+  contract:string;
   descriptionDuPoste: string;
   conditionsEtAvantages: string;
   presentationDeLEntreprise: string;

@@ -13,6 +13,7 @@ import { jwtDecode } from 'jwt-decode';
 
 import axios from "axios"; 
 import { config } from "process";
+import Loader from "../common/Loader";
 interface JwtPayload {
   id: string;
   // Add any other fields from the token payload if necessary
@@ -77,7 +78,7 @@ const DropdownUser = () => {
   
 
   if (!user) {
-    return <p>Loading...</p>; // You can also add a loading spinner or similar
+    return <div><Loader /></div>; 
   }
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">

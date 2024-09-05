@@ -11,4 +11,5 @@ export interface Post {
   presentationDeLEntreprise: string;
   createdAt: string;
   updatedAt: string;
+  validate:string;
 }

@@ -7,6 +7,7 @@ import Image from "next/image";
 import SidebarItem from "@/components/Sidebar/SidebarItem";
 import ClickOutside from "@/components/ClickOutside";
 import useLocalStorage from "@/hooks/useLocalStorage";
+import {jwtDecode} from 'jwt-decode';
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -16,7 +17,7 @@ interface SidebarProps {
 const menuGroups = [
   {
     name: "MENU",
-    menuItems: [
+    menuItems:  [
       {
         icon: (
           <svg
@@ -215,11 +216,18 @@ const menuGroups = [
   },
   
 ];
-
+const getUserRoleAndCompany = () => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    const decoded: any = jwtDecode(token);
+    return { role: decoded.role, company: decoded.company };
+  }
+  return { role: null, company: null };
+};
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const pathname = usePathname();
   const [pageName, setPageName] = useLocalStorage("selectedMenu", "dashboard");
-
+  const { role, company } = getUserRoleAndCompany();
   return (
     <ClickOutside onClick={() => setSidebarOpen(false)}>
       <aside
@@ -266,12 +274,15 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           <nav className="mt-5 px-4 py-4 lg:mt-9 lg:px-6">
             {menuGroups.map((group, groupIndex) => (
               <div key={groupIndex}>
-                <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
-                  {group.name}
-                </h3>
+                
+                  <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
+                    {group.name}
+                  </h3>
+              
 
                 <ul className="mb-6 flex flex-col gap-1.5">
                   {group.menuItems.map((menuItem, menuIndex) => (
+                    
                     <SidebarItem
                       key={menuIndex}
                       item={menuItem}

@@ -176,9 +176,11 @@ const TableThree = () => {
               <th className="px-4 py-4 font-medium text-black dark:text-white">
                 Rôle
               </th>
+              {role !== 'super_agent' && (
               <th className="px-4 py-4 font-medium text-black dark:text-white">
                 Actions
               </th>
+              )}
             </tr>
           </thead>
           <tbody>
@@ -214,7 +216,9 @@ const TableThree = () => {
                     {user.role}
                   </p>
                 </td>
+                {role !== 'super_agent' && (
                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
+               
                   <div className="flex items-center space-x-3.5">
                     <button onClick={() => handleEditUser(user)} className="hover:text-primary">
                       <svg width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -232,7 +236,9 @@ const TableThree = () => {
                       </svg>
                     </button>
                   </div>
+               
                 </td>
+                 )}
               </tr>
             ))}
           </tbody>
@@ -292,6 +298,7 @@ const TableThree = () => {
           <option value="" disabled>Select role</option>
           <option value="user">User</option>
           <option value="agent">Agent</option>
+          <option value="super_agent">Super Agent</option>
         </select>
       </div>
   

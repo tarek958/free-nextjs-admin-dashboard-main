@@ -1,18 +1,20 @@
 "use client";
-import { jwtDecode } from 'jwt-decode';
-
+import jwtDecode from 'jwt-decode'; // Adjust import statement to correct syntax
 import { useEffect, useState } from "react";
-  import { ToastContainer, toast } from "react-toastify";
-
-  import "react-toastify/dist/ReactToastify.css";
-
-import { User } from "@/types/user";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import axios from "axios"; 
-import { config } from "process";
 import withAuth from '../withAuth';
+import { User } from "@/types/user"; // Adjust this import according to your setup
 
-const token = localStorage.getItem('token');
- const getUserRoleAndCompany = () => {
+const TableThree = () => {
+  const [users, setUsers] = useState<User[]>([]);
+  const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
+  const [showAddPopup, setShowAddPopup] = useState(false);
+  const [showEditPopup, setShowEditPopup] = useState(false);
+
+  // Decoding the token to get role and company
+  const getUserRoleAndCompany = () => {
     const token = localStorage.getItem('token');
     if (token) {
       const decoded: any = jwtDecode(token);
@@ -20,12 +22,9 @@ const token = localStorage.getItem('token');
     }
     return { role: null, company: null };
   };
-const TableThree = () => {
-  const [users, setUsers] = useState<User[]>([]);
-  const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
-  const [showAddPopup, setShowAddPopup] = useState(false);
-  const [showEditPopup, setShowEditPopup] = useState(false);
+
   const { role, company } = getUserRoleAndCompany();
+
   const [newUser, setNewUser] = useState({
     firstName: '',
     lastName: '',
@@ -35,15 +34,18 @@ const TableThree = () => {
     company:'',
     password: ''
   });
+
   const [editingUser, setEditingUser] = useState({
-    _id:'',
+    _id: '',
     firstName: '',
     lastName: '',
     email: '',
     role: '',
     telephone: '',
-    company:''
+    company: ''
   });
+
+  // Fetch all users from the API
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -59,66 +61,64 @@ const TableThree = () => {
     } catch (error) {
       console.error('Error fetching users:', error);
     }
-    
   };
- 
 
+  // Filter users based on role and company
   const filterUsers = (users: User[]) => {
-    console.log("Role : "+role)
     if (role === 'agent' && company) {
       setFilteredUsers(users.filter(user => user.company === company && user.role !== 'admin' && user.role !== 'super_agent'));
     } else {
       setFilteredUsers(users);
     }
   };
+
   useEffect(() => {
     fetchUsers();
   }, []);
-  
-  
 
+  // Add a new user
   const addUser = async () => {
     try {
       const token = localStorage.getItem('token');
-        const config = {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        };
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      };
       await axios.post('http://148.113.194.169:5000/api/users/create-user', newUser, config);
       setShowAddPopup(false);
       fetchUsers();
-      toast.success('Utilisateur a ajouté avec succès!');
-  
+      toast.success('Utilisateur ajouté avec succès!');
     } catch (error) {
       console.error('Error adding user:', error);
     }
   };
 
+  // Update an existing user
   const updateUser = async (userId: string, user: any) => {
     try {
       const token = localStorage.getItem('token');
-      console.log(token);
-      
-        const config = {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        };
-      await axios.put(`http://148.113.194.169:5000/api/users/${userId}`,user ,config);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      };
+      await axios.put(`http://148.113.194.169:5000/api/users/${userId}`, user, config);
       toast.success('Utilisateur mis à jour avec succès!');
-      setShowEditPopup(false)
+      setShowEditPopup(false);
       fetchUsers();
-      // Refresh user list or handle success
     } catch (error) {
       console.error('Error updating user:', error);
     }
   };
+
+  // Handle edit user action
   const handleEditUser = (user: User) => {
     setEditingUser(user);
     setShowEditPopup(true);
   };
-  
+
+  // Delete a user
   const deleteUser = async (userId: string) => {
     try {
       const token = localStorage.getItem('token');
@@ -127,14 +127,15 @@ const TableThree = () => {
           Authorization: `Bearer ${token}`
         }
       };
-      await axios.delete(`http://148.113.194.169:5000/api/users/${userId}`,config);
-      toast.success('L\'utilisateur a supprimé avec succès!');
+      await axios.delete(`http://148.113.194.169:5000/api/users/${userId}`, config);
+      toast.success('L\'utilisateur a été supprimé avec succès!');
       fetchUsers();
-      
     } catch (error) {
       console.error('Error deleting user:', error);
     }
   };
+
+  // Validate the form before adding a new user
   const validateForm = () => {
     return newUser.firstName && newUser.lastName && newUser.email && newUser.role && newUser.telephone && newUser.company && newUser.password;
   };

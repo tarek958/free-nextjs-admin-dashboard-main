@@ -64,16 +64,13 @@ const TableThree = () => {
  
 
   const filterUsers = (users: User[]) => {
-    
-
     console.log("Role : "+role)
     if (role === 'agent' && company) {
-      setFilteredUsers(users.filter(user => user.company === company));
+      setFilteredUsers(users.filter(user => user.company === company && user.role !== 'admin' && user.role !== 'super_agent'));
     } else {
       setFilteredUsers(users);
     }
   };
-
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -298,7 +295,9 @@ const TableThree = () => {
           <option value="" disabled>Select role</option>
           <option value="user">User</option>
           <option value="agent">Agent</option>
+          {role !== 'agent' &&(
           <option value="super_agent">Super Agent</option>
+          )}
         </select>
       </div>
   
@@ -399,6 +398,9 @@ const TableThree = () => {
               >
                 <option value="user">User</option>
                 <option value="agent">Agent</option>
+                {role !== 'agent' &&(
+          <option value="super_agent">Super Agent</option>
+          )}
               </select>
             }
               <input
